@@ -23,7 +23,7 @@ BACK_TRIM_KEEP_BELOW_CONNECT = True    # keep the connector area; only trim belo
 LIP_LENGTH = 16.35
 LIP_THICKNESS = 2.0
 
-HORIZONTAL_LENGTH = 105.0
+HORIZONTAL_LENGTH = 102.0 # Lower 3mm to 5mm max (Trying 3 first)
 HORIZONTAL_THICKNESS = 4.0
 
 OUTSIDE_LENGTH = 70.0
