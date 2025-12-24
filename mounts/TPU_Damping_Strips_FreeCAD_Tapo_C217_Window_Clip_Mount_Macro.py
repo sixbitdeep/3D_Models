@@ -2,7 +2,7 @@
 # Creates two TPU solids:
 #  1) TPU pocket insert
 #  2) TPU long damping strip
-#
+# This FreeCAD macro generates TPU damping pads used to reduce wind-induced vibration on a sliding window camera mount.
 # PREVIEW_MODE_SIDE_BY_SIDE = True moves them next to each other for viewing/export.
 
 import FreeCAD as App
