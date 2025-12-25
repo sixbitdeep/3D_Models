@@ -1,5 +1,6 @@
 # FreeCAD Macro: Sliding Window Camera Mount (Clip Style)
 # Adds: Guy-wire string holes (2 top IN THE LIP + 2 bottom) to reduce wind shake
+# Adds (Option B): Dedicated long underside damping slot (wide, centered) to accept TPU/foam strip
 # Top holes: drilled through clip lip in Z (guaranteed through)
 # No gussets (keeps window-closing clearance)
 # Fillet off by default to avoid OCC segfaults
@@ -24,7 +25,7 @@ BACK_TRIM_KEEP_BELOW_CONNECT = True
 LIP_LENGTH = 16.35
 LIP_THICKNESS = 4.0
 
-HORIZONTAL_LENGTH = 86.0 # original print 102.0 reduced 16mm
+HORIZONTAL_LENGTH = 86.0  # original print 102.0 reduced 16mm
 HORIZONTAL_THICKNESS = 5.0
 
 OUTSIDE_LENGTH = 70.0
@@ -57,6 +58,16 @@ POCKET_Y_MARGIN = 4.0
 POCKET_DEPTH = 1.8
 MIN_FLOOR_THICKNESS = 1.2
 # ----------------------------------------------------
+
+# --------- UNDERSIDE DAMPING SLOT (LONG CUT) ---------
+# Option B: Dedicated long underside slot (wide, centered) to accept TPU/foam strip
+UNDERCUT_ENABLE = True
+UNDERCUT_X_START = 6.0
+UNDERCUT_LENGTH = 60.0
+UNDERCUT_Y_MARGIN = 3.0
+UNDERCUT_DEPTH = 1.2
+UNDERCUT_MIN_FLOOR = 2.0
+# -----------------------------------------------------
 
 # --------- GUY-WIRE HOLES (string/cord brace) ---------
 GUY_ENABLE = True
@@ -257,6 +268,23 @@ def create_camera_mount():
         bracket = bracket.cut(bottom_pocket)
         bracket = refine_if_enabled(bracket)
 
+    # Option B: Dedicated underside damping slot (long, wide cut)
+    if UNDERCUT_ENABLE:
+        ux0 = clamp(UNDERCUT_X_START, 0.0, max(0.0, HORIZONTAL_LENGTH - 2.0))
+        ux1 = clamp(ux0 + UNDERCUT_LENGTH, ux0 + 2.0, HORIZONTAL_LENGTH)
+        ulen = ux1 - ux0
+
+        uy0 = clamp(UNDERCUT_Y_MARGIN, 0.0, WIDTH / 2.0)
+        uw = max(1.0, WIDTH - 2.0 * uy0)
+
+        umax_depth = max(0.1, HORIZONTAL_THICKNESS - UNDERCUT_MIN_FLOOR)
+        udepth = clamp(UNDERCUT_DEPTH, 0.1, umax_depth)
+
+        undercut = Part.makeBox(ulen, uw, udepth)
+        undercut.translate(Vector(ux0, uy0, 0.0))  # bottom face
+        bracket = bracket.cut(undercut)
+        bracket = refine_if_enabled(bracket)
+
     # Camera mount holes (your original pair)
     xh = HORIZONTAL_LENGTH - OUTSIDE_THICKNESS - 1
     hole_offset = (OUTSIDE_LENGTH / 2.0) if CENTER_HOLES_Z else HOLE_OFFSET_FROM_BOTTOM
@@ -300,7 +328,8 @@ def create_camera_mount():
         FreeCADGui.ActiveDocument.ActiveView.viewIsometric()
         FreeCADGui.ActiveDocument.ActiveView.fitAll()
 
-    print("WindowCameraMount created with TOP lip guy-wire holes!")
+    print("WindowCameraMount created with underside damping slot + TOP lip guy-wire holes!")
+    print(f"  Undercut: enable={UNDERCUT_ENABLE}, depth={UNDERCUT_DEPTH}mm, min_floor={UNDERCUT_MIN_FLOOR}mm")
     print(f"  Top holes: lip Z-drill, d={GUY_HOLE_DIAMETER}mm, x_frac={GUY_TOP_LIP_X_FRAC}")
     print(f"  Bottom holes: mode={GUY_BOTTOM_MODE}, d={GUY_HOLE_DIAMETER}mm")
     return mount
