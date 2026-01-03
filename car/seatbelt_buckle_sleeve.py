@@ -20,14 +20,14 @@ doc.recompute()
 # -----------------------------
 buckle_width = 48.6      # Y direction (left-right), your measured OUTER width
 buckle_depth = 32.3      # X direction (front-back), your measured OUTER depth
-sleeve_height = 25.0     # Adjust Me Z direction, how tall the sleeve is
+sleeve_height = 28.4     # Adjust This Z direction, how tall the sleeve is
 
 clearance = 0.8          # fit tolerance around buckle
 wall = 2.5               # wall thickness
 
 # Corner radii
 outer_corner_radius = 6.0      # outer corner rounding
-inner_corner_radius = 8.0      # Adjust Me INNER corner rounding to match buckle's rounded corners
+inner_corner_radius = 8.0      # Adjust Me INNER CORNERS rounding to match buckle's rounded corners
                                # Adjust this to match your buckle's actual corner radius!
 top_rim_radius = 1.2           # soften top rim (0 disables)
 bottom_rim_radius = 1.2        # soften bottom rim (0 disables)
