@@ -16,7 +16,7 @@ DOC_NAME = "1090MHz_Tools"
 # -------------------------
 
 # Length jig (this is your "69mm height tool" target length)
-ELEMENT_LEN = 68.8   # target length for your elements (use 69.0 if you prefer)
+ELEMENT_LEN = 68.5   # target length for your elements (use 69.0 if you prefer)
 JIG_EXTRA   = 20.0   # extra base length beyond the element
 JIG_W       = 25.0   # base width (Y)
 JIG_H       = 8.0    # base height (Z)
@@ -27,8 +27,8 @@ NOTCH_W     = 1.5    # cut indicator notch width (X)
 # Angle gauge (solid wedge)
 ANGLE_DEG = 45.0
 
-# Make the angle gauge "block width" match the 68.8/69mm tool length (X dimension)
-GAUGE_W = 50  # X (width) matches your element length
+# Angle gauge dimensions (compact size, independent of element length)
+GAUGE_W = 50.0  # X (width) matches your element length
 GAUGE_D = JIG_W          # Y (depth)
 GAUGE_H = 25.0         # Z (height)
 
